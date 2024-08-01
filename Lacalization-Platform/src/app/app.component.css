@@ -5,23 +5,7 @@
     top: 0;
     position: absolute;
     z-index: 1;
-}
-a{
-    text-decoration: none;
-    color: white;
-    /* font-size: 30px; */
-} 
-.nav-item{
-    background-color: #43cea2;
-    height: 100%;
-}
-#custom-Nav{
-    color: white;
-    height: 20%;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-radius: 0px ;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    /* overflow: hidden; */
 }
 #icon-form{
     width: 30%;
@@ -41,14 +25,7 @@ a{
     height: 50px; 
     background-color: gainsboro;
 }
-#icon-form div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 91px;
-    width: 30%;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
+
 
 .progress-nav{
     color: white;

@@ -1,0 +1,128 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #43cea2, #185a9d);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    overflow: hidden;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.form-container, .info-container {
+    padding: 20px;
+    flex: 1;
+}
+
+.form-container {
+    background: #f4f4f4;
+    justify-content: center;
+    align-content: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+form{
+    margin-left: 40px;
+    margin-top: 40px;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: calc(100% - 70px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+button {
+    width: calc(100% - 50px);
+    padding: 10px;
+    background: #f18a1b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background: #e67e22;
+}
+
+.social-signup button {
+    display: block;
+    width: calc(100% - 20px);
+    margin: 5px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.social-signup .google { background: #db4437; color: white; }
+.social-signup .github { background: #333; color: white; }
+.social-signup .facebook { background: #3b5998; color: white; }
+.social-signup .microsoft { background: #0078d7; color: white; }
+
+.info-container {
+    color: white;
+    background: linear-gradient(to right, #43cea2, #185a9d);
+    text-align: center;
+}
+
+.companies img {
+    width: 100px;
+    margin: 10px;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.feature {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    flex: 1 1 100px;
+}
+.authen-image{
+    height: 350px;
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.authen-image img{
+    max-width: 100%;
+    max-height: 100%;
+}

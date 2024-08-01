@@ -1,0 +1,77 @@
+<div class="projects-list">
+    <div class="card mt-4" id="project-list">
+      <div class="card-header d-flex justify-content-between align-items-center" id="projects-nav">
+        <span>Projects</span>
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Order by Date Asc
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#">Date Desc</a></li>
+            <li><a class="dropdown-item" href="#">Name Asc</a></li>
+            <li><a class="dropdown-item" href="#">Name Desc</a></li>
+          </ul>
+        </div>
+        <button class="btn btn-primary" (click)="openModal()">+</button>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Project Name</th>
+              <th scope="col">Strings</th>
+              <th scope="col">Languages</th>
+              <th scope="col">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="projects.length === 0">
+              <td colspan="4">There is not yet a project.</td>
+            </tr>
+            <tr *ngFor="let project of projects">
+              <td>{{ project.name }}</td>
+              <td>{{ project.strings }} strings</td>
+              <td>
+                <i *ngFor="let lang of project.languages" [ngClass]="getLangIconClass(lang)"></i>
+              </td>
+              <td>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" [style.width]="project.progress + '%'" [attr.aria-valuenow]="project.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small>{{ project.progress }}%</small>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" id="addProjectModal" tabindex="-1" aria-labelledby="addProjectModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProjectModalLabel">Add New Project</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="projectForm">
+              <div class="mb-3">
+                <label for="projectName" class="form-label">Project Name</label>
+                <input type="text" class="form-control" id="projectName" formControlName="name">
+              </div>
+              <div class="mb-3">
+                <label for="projectDescription" class="form-label">Project Description</label>
+                <textarea class="form-control" id="projectDescription" rows="3" formControlName="description"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="addProject()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
