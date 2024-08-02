@@ -1,0 +1,139 @@
+.navbar{
+    background: linear-gradient(to right, #43cea2, #185a9d);
+    z-index: 100;
+}
+.next-navbar{
+    background: linear-gradient(to right, #43cea2, #185a9d);
+    border-radius: 0px 0px 40px 40px ;
+    width: 100%;
+    top: 90px;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+}
+#icon-form{
+    width: 30%;
+    height: 91px;
+    justify-content: space-between;
+    align-items: center;
+}
+.profil{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.profile-img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px; 
+    background-color: gainsboro;
+}
+
+
+.progress-nav{
+    color: white;
+    height: 360px;
+    margin: auto;
+    width: 85%;
+    padding-bottom: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Project-Stats{
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+
+}
+.Project-Stats div{
+    display: flex;
+    width: 30%;
+    margin-left: 2%;
+}
+#progress-bar{
+    width: 27%;
+}
+
+
+.projects-list {
+    margin: auto;
+    width: 85%;
+    top: 350px;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+	transform: translate(-50%, -0%);
+}
+
+.progress {
+    height: 5px;
+}
+
+.progress-info div {
+    text-align: center;
+}
+
+#project-list {
+    background-color: white;
+    border-radius: 30px 30px 30px 30px ;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#projects-nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add-project {
+    background-color: #ff9800;
+    border: none;
+    color: white;
+    font-size: 24px;
+    width: 55px;
+    height: 55px;
+    border-radius: 40%;
+    cursor: pointer;
+}
+
+#projects {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.project-item:last-child {
+    border-bottom: none;
+}
+
+.project-item .project-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-item .project-languages img {
+    margin-left: 5px;
+}
+
+.modal{
+    z-index: 20;
+    background-color: bisque;
+}
+
+@media (max-width: 768px) {
+    .progress-nav{
+        display: block;
+    }
+}

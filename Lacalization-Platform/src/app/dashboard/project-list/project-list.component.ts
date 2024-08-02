@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { ProjectService } from './project.service';
 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,13 +19,15 @@ interface Project {
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './project-list.component.html',
   styleUrls: [
-    '../../app.component.css',
+    '../dashboard.component.css',
     './project-list.component.css'
   ]
 })
 export class ProjectListComponent implements OnInit {
   projects: Project[] = [];
   projectForm: FormGroup;
+
+  @ViewChild('addProjectModal', { static: true }) addProjectModal!: TemplateRef<any>;
 
   constructor(
     private fb: FormBuilder,
@@ -43,14 +45,13 @@ export class ProjectListComponent implements OnInit {
   }
 
   loadProjects(): void {
-    // Load projects from backend
     this.projectService.getProjects().subscribe((projects) => {
       this.projects = projects;
     });
   }
 
   openModal(): void {
-    const modalRef = this.modalService.open(this.openModal);
+    this.modalService.open(this.addProjectModal);
   }
 
   addProject(): void {

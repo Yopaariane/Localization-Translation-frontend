@@ -8,7 +8,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="link-list">
           <li class="nav-item1">
-            <a class="nav-link" href="#">Dashboard</a>
+            <a class="nav-link" href="http://localhost:4200/dashboard">Dashboard</a>
           </li>
           <li class="nav-item1">
             <a class="nav-link" href="#">Contributors</a>
@@ -62,7 +62,7 @@
                     alt=""
                     loading="lazy"
                   />
-                  <span style="margin-left: 2%;">User Name</span>
+                  <span *ngIf="user" style="margin-left: 2%;">{{ user.name }}</span>
                 </a> 
                 <ul mdbDropdownMenu class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li>

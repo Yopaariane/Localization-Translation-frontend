@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService, UserResponse } from '../auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './log-in.component.html',
   styleUrls: [
     './log-in.component.css',
@@ -15,22 +15,29 @@ import { Router } from '@angular/router';
   ]
 })
 export class LogInComponent {
-  loginData = { name: '', password: '' };
-  loginError: string | null = null;
+  loginForm: FormGroup;
+  loginError: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.loginForm = this.fb.group({
+      name: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
-  onLogin() {
-    this.authService.login(this.loginData).subscribe(
-      response => {
-        console.log('User logged in successfully:', response);
-        this.authService.setToken(response.token);
-        this.router.navigate(['/app']);
-      },
-      error => {
-        console.error('Error:', error);
-        this.loginError = 'Login failed: ' + (error.error?.message || 'Unknown error');
-      }
-    );
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (data: UserResponse) => {
+          console.log('User logged in successfully:', data);
+          localStorage.setItem('user', JSON.stringify(data));
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          this.loginError = 'Login failed: ' + (error.error || error.message || 'Unknown error');
+        }
+      });
+    }
   }
 }

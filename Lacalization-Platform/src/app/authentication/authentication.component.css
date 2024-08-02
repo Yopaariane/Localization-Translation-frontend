@@ -1,6 +1,6 @@
-body {
-    font-family: Arial, sans-serif;
+.authen-page {
     background: linear-gradient(to right, #43cea2, #185a9d);
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -8,10 +8,10 @@ body {
     align-items: center;
     height: 100vh;
 }
-
 .container {
     background: white;
     border-radius: 10px;
+    padding: 0;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     display: flex;
     overflow: hidden;
@@ -42,8 +42,10 @@ p {
     margin-bottom: 20px;
 }
 form{
-    margin-left: 40px;
-    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
@@ -56,12 +58,13 @@ input[type="text"], input[type="email"], input[type="password"] {
 
 label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-right: calc(100% - 140px);
     font-size: 14px;
 }
 
 button {
-    width: calc(100% - 50px);
+    width: calc(100% - 70px);
     padding: 10px;
     background: #f18a1b;
     color: white;
@@ -125,4 +128,13 @@ button:hover {
 .authen-image img{
     max-width: 100%;
     max-height: 100%;
+}
+
+@media (max-width: 768px) {
+    .authen-page{
+        padding: 20%;
+    }
+    .info-container{
+    display: none;
+   }
 }

@@ -1,19 +1,24 @@
-<div class="container">
+<div class="container-fluid authen-page">
+  <div class="container">
     <div class="form-container">
-      <h1>Login to your account</h1>
-      <form (ngSubmit)="onLogin()">
-        <input type="text" placeholder="Your name" [(ngModel)]="loginData.name" name="name" required>
-        <input type="password" placeholder="Your password" [(ngModel)]="loginData.password" name="password" required>
-        <button type="submit">Login</button>
-        <div *ngIf="loginError" class="error-message">{{ loginError }}</div>
-      </form>
-      <p>Don't have an account? <a routerLink="/signup"> Create one</a></p>
+        <h1>Login to your account</h1>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <label for="username">Username</label>
+          <input id="username" formControlName="name" type="text" required>
+          <label for="password">Password</label>
+          <input id="password" formControlName="password" type="password" required>
+          <button type="submit">Log In</button>
+        </form>
+        <p *ngIf="loginError" class="error" style="color: red; font-size: 14px;">{{ loginError }}</p>
+        <p>Don't have an account? <a routerLink="/signup"> Create one</a></p>
     </div>
     <div class="info-container">
-      <h1>Join Us in Making Your Content Feel at Home Everywhere</h1>
-      <div class="authen-image">
-        <img src="assets/images/authen.png" alt="Localisation Illustration">
-      </div>
+        <h1>Join Us in Making Your Content Feel at Home Everywhere</h1>
+        <div class="authen-image">
+            <img src="/public/authen.png" alt="Localization Illustration">
+        </div>
     </div>
   </div>
+</div>
   
+  <router-outlet></router-outlet>
