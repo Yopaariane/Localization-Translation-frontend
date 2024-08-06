@@ -11,13 +11,10 @@ import { ProjectListComponent } from './project-list/project-list.component';
     './dashboard.component.css'
   ]
 })
-export class DashboardComponent implements OnInit {
-  user: { id: number, name: string } | null = null;
+export class DashboardComponent{
+  projectCount: number = 0;
 
-  ngOnInit() {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      this.user = JSON.parse(userData);
-    }
+  updateProjectCount(count: number): void {
+    this.projectCount = count;
   }
 }

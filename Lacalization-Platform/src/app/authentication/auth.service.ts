@@ -13,14 +13,14 @@ export interface UserResponse {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api'; // backend URL
+  private apiUrl = 'http://10.12.1.209:8080/api'; // backend URL
 
   private authenticated = false;
 
   constructor(private http: HttpClient) { }
 
-  signup(user: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, user).pipe(
+  signup(user: any): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.apiUrl}/register`, user).pipe(
       tap(() => this.authenticated = true)
     );
   }
@@ -39,3 +39,5 @@ export class AuthService {
     return this.authenticated; 
   }
 }
+
+

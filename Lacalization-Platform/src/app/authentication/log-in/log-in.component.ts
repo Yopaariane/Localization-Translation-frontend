@@ -3,6 +3,7 @@ import { AuthService, UserResponse } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { StorageServiceService } from '../../storage-service.service';
 
 @Component({
   selector: 'app-log-in',
@@ -18,7 +19,7 @@ export class LogInComponent {
   loginForm: FormGroup;
   loginError: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private localStorage: StorageServiceService) {
     this.loginForm = this.fb.group({
       name: ['', Validators.required],
       password: ['', Validators.required]
@@ -30,7 +31,7 @@ export class LogInComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (data: UserResponse) => {
           console.log('User logged in successfully:', data);
-          localStorage.setItem('user', JSON.stringify(data));
+          this.localStorage.setitem('user', JSON.stringify(data));
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {

@@ -133,7 +133,13 @@
 }
 
 @media (max-width: 768px) {
+    .next-navbar{
+        top: 50px;
+    }
     .progress-nav{
         display: block;
+    }
+    .Project-Stats{
+        width: 60%;
     }
 }

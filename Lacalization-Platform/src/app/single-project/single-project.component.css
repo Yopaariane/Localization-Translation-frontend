@@ -1,0 +1,100 @@
+/* .gradient-custom-2 {
+    /* fallback for old browsers */
+    /* background: #7e40f6; */ 
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    /* background: -webkit-linear-gradient(
+      to right,
+      rgba(126, 64, 246, 1),
+      rgba(80, 139, 252, 1)
+    ); */
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(
+      to right,
+      rgba(126, 64, 246, 1),
+      rgba(80, 139, 252, 1)
+    );
+  }
+  
+  .mask-custom {
+    background: rgba(24, 24, 16, 0.2);
+    border-radius: 2em;
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+  } */
+
+
+.next-navbar{
+    background: linear-gradient(to right, #43cea2, #185a9d);
+    border-radius: 0px 0px 40px 40px ;
+    width: 100%;
+    top: 90px;
+    padding-top: 80px;
+    padding-bottom: 30px;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+}
+.project-title{
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+.progress {
+  height: 10px;
+}
+.custom-progress{
+  color: white;
+  width: 85%;
+  margin: auto;
+}
+.link-list{
+  width: 85%;
+  height: 100px;
+  align-content: center;
+  margin: auto;
+  padding: 0;
+}
+.custom-list{
+  padding-left: 0;
+  display: flex;
+  list-style: none;
+}
+.nav-link {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: white; 
+}
+.nav-item:not(:last-child) {
+  border-right: none; /* Remove right border for all but the last item */
+}
+.nav-item:last-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.3); /* Keep the custom border for the last item */
+}
+
+
+
+.custom-card{
+  background-color: white;
+    border-radius: 30px 30px 30px 30px ;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    width: 85%;
+    top: 320px;
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+	transform: translate(-50%, -0%);
+} 
+.custom-btn{
+  width: 50px;
+  background-color: blue;
+}
+.custom-td a{
+  padding: 3%;
+}
