@@ -4,9 +4,11 @@ import { ProjectService } from './project.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../authentication/auth.service';
+import { StorageServiceService } from '../../storage-service.service';
+import { RouterLink, RouterModule } from '@angular/router';
 
 interface Project {
+  id: number;
   name: string;
   description: string;
   ownerId: number;
@@ -18,7 +20,7 @@ interface Project {
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
   templateUrl: './project-list.component.html',
   styleUrls: [
     '../dashboard.component.css',
@@ -38,6 +40,7 @@ export class ProjectListComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private projectService: ProjectService,
+    private localStorage: StorageServiceService
   ) {
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
@@ -63,6 +66,7 @@ export class ProjectListComponent implements OnInit {
       this.projectService.getUserProjects(userId).subscribe((projects) => {
         this.projects = projects;
         console.log('Projects loaded:', this.projects);
+        this.localStorage.setitem('project', JSON.stringify(projects))
         this.projectCountChange.emit(projects.length);
         console.log('Project count emitted:', this.projects.length);
       });

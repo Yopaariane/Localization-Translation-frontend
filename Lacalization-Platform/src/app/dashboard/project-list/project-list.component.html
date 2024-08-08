@@ -29,7 +29,7 @@
             <td colspan="4">There is not yet a project.</td>
           </tr>
           <tr *ngFor="let project of projects">
-            <td><a href="http://10.12.1.209:4200/project/:id" class="link-dark">{{ project.name }}</a></td>
+            <td><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></td>
             <td>{{ project.strings }} strings</td>
             <td>
               <i *ngFor="let lang of project.languages" [ngClass]="getLangIconClass(lang)"></i>

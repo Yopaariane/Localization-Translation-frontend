@@ -38,18 +38,23 @@
     position: absolute;
     z-index: 1;
 }
+.project-info{
+  display: flex;
+  width: 90%;
+  margin: auto;
+}
 .project-title{
-  width: 25%;
+  width: fit-content;
   display: flex;
   justify-content: space-between;
+  padding-left: 1%;
 }
 .progress {
   height: 10px;
 }
 .custom-progress{
   color: white;
-  width: 85%;
-  margin: auto;
+  width: 95%;
 }
 .link-list{
   width: 85%;
@@ -97,4 +102,28 @@
 }
 .custom-td a{
   padding: 3%;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+.position-absolute {
+  position: absolute;
+}
+.z-index-1 {
+  z-index: 1;
+}
+
+.language-display{
+  display: flex ;
+}
+.custom-class{
+  padding: 2px;
+  width: fit-content;
+}
+
+.bi-x-circle{
+  margin-left: 4px;
+  color: red;
+  cursor: pointer;
 }
