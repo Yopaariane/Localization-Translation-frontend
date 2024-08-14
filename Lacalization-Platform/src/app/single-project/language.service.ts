@@ -12,7 +12,7 @@ interface Language{
     providedIn: 'root'
 })
 export class languageService{
-    private apiUrl = 'http://localhost:8080/languages';
+    private apiUrl = 'http://10.12.1.209:8080/languages';
 
     constructor (private http: HttpClient){}
 

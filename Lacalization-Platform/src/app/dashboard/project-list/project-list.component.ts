@@ -4,23 +4,34 @@ import { ProjectService } from './project.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { StorageServiceService } from '../../storage-service.service';
 import { RouterLink, RouterModule } from '@angular/router';
+import { SingleProjectComponent } from '../../single-project/single-project.component';
 
+interface ProjectLanguage {
+  id: number;
+  projectId: number;
+  languageId: number;
+}
+
+interface Language {
+  id: number;
+  code: string;
+  name: string;
+}
 interface Project {
   id: number;
   name: string;
   description: string;
   ownerId: number;
   strings: number;
-  languages: string[];
+  languages: Language[];
   progress: number;
 }
 
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule, SingleProjectComponent],
   templateUrl: './project-list.component.html',
   styleUrls: [
     '../dashboard.component.css',
@@ -40,7 +51,6 @@ export class ProjectListComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private projectService: ProjectService,
-    private localStorage: StorageServiceService
   ) {
     this.projectForm = this.fb.group({
       name: ['', Validators.required],
@@ -60,21 +70,24 @@ export class ProjectListComponent implements OnInit {
     return null;
   }
 
+  getFlagClass(languageCode: string): string {
+    return `fi fi-${languageCode}`;
+  }
+
   loadProjects(): void {
     const userId = this.getUserId();
     if (userId !== null) {
       this.projectService.getUserProjects(userId).subscribe((projects) => {
         this.projects = projects;
-        console.log('Projects loaded:', this.projects);
-        this.localStorage.setitem('project', JSON.stringify(projects))
         this.projectCountChange.emit(projects.length);
-        console.log('Project count emitted:', this.projects.length);
       });
     } else {
       console.error('User ID not found in local storage.');
     }
   }
+  
 
+// Modal
   openModal(): void {
     this.modalService.open(this.addProjectModal);
   }
@@ -90,19 +103,11 @@ export class ProjectListComponent implements OnInit {
           this.projectCountChange.emit(this.projects.length);
           this.modalService.dismissAll();
           this.projectForm.reset();
+
         });
       } else {
         console.error('User ID not found in local storage.');
       }
-    }
-  }
-
-  getLangIconClass(lang: string): string {
-    switch (lang) {
-      case 'usa': return 'bi bi-flag-usa';
-      case 'germany': return 'bi bi-flag-germany';
-      case 'japan': return 'bi bi-flag-japan';
-      default: return 'bi bi-gear';
     }
   }
 }

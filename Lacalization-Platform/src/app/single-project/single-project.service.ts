@@ -12,7 +12,7 @@ interface ProjectLanguage{
     providedIn: 'root'
 })
 export class SingleProjectService {
-    private apiUrl = 'http://localhost:8080/projectLanguages';
+    private apiUrl = 'http://10.12.1.209:8080/projectLanguages';
 
     constructor (private http: HttpClient){}
 

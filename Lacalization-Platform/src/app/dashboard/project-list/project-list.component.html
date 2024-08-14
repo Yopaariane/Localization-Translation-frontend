@@ -30,9 +30,11 @@
           </tr>
           <tr *ngFor="let project of projects">
             <td><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></td>
-            <td>{{ project.strings }} strings</td>
-            <td>
-              <i *ngFor="let lang of project.languages" [ngClass]="getLangIconClass(lang)"></i>
+            <td>{{ 0 }} strings</td>
+            <td *ngIf="project.languages">
+              <ng-container *ngFor="let language of project.languages">
+                <span [class]="getFlagClass(language.code)" style="margin-left: 5px;"></span>
+              </ng-container>
             </td>
             <td>
               <div class="progress">

@@ -5,12 +5,24 @@ import { AuthGuard } from './authentication/auth.guard';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SingleProjectComponent } from './single-project/single-project.component';
+import { TermsComponent } from './single-project/terms/terms.component';
+import { ProjectLanguagesComponent } from './single-project/project-languages/project-languages.component';
+import { ContributorsComponent } from './single-project/contributors/contributors.component';
+import { ImportsComponent } from './single-project/imports/imports.component';
 
 export const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LogInComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'project/:id', component: SingleProjectComponent },
+  { path: 'project/:id', component: SingleProjectComponent, children: [
+    { path: 'languages', component: ProjectLanguagesComponent },
+    { path: 'terms', component: TermsComponent },
+    { path: 'contributors', component: ContributorsComponent },
+    { path: 'imports', component: ImportsComponent },
+    // Default route for the project page
+    { path: '', redirectTo: 'languages', pathMatch: 'full' },
+  ]  },
+  { path: 'projectTerms', component: TermsComponent },
   { path: 'app', component: AppComponent, canActivate: [AuthGuard], children: [
     { path: 'dashboard', component: DashboardComponent }
   ] 
