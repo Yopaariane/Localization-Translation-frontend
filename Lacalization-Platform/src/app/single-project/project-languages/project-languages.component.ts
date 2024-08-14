@@ -3,7 +3,7 @@ import { SingleProjectComponent } from '../single-project.component';
 import { forkJoin } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProjectService } from '../../dashboard/project-list/project.service';
 import { SingleProjectService } from '../single-project.service';
 import { languageService } from '../language.service';
@@ -23,7 +23,7 @@ interface Language{
 @Component({
   selector: 'app-project-languages',
   standalone: true,
-  imports: [SingleProjectComponent, FormsModule, CommonModule],
+  imports: [SingleProjectComponent, FormsModule, CommonModule, RouterModule],
   templateUrl: './project-languages.component.html',
   styleUrls: [
     './project-languages.component.css',

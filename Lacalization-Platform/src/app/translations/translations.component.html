@@ -1,0 +1,41 @@
+<app-nav-bar></app-nav-bar>
+<!-- Progress nav -->
+<nav class="next-navbar">
+  <div class="project-info">
+    <a href="http://10.12.1.209:4200/dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+        <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1"/>
+      </svg>
+    </a>
+    <div class="Translation-Progress custom-progress">
+      <div class="project-title">
+        <h2>projectName</h2>
+      </div>
+      <div class="progress">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="80"></div>
+      </div>
+      <p>Translation Progress</p>
+    </div>
+  </div>
+  <div class="link-list">
+    <ul class="custom-list">
+      <li class="nav-item1">
+        <a class="nav-link" routerLink="languages">Languages</a>
+      </li>
+      <li class="nav-item1">
+        <a class="nav-link" routerLink="terms">Terms</a>
+      </li>
+      <li class="nav-item1">
+        <a class="nav-link" routerLink="contributors">Contributors</a>
+      </li>
+      <li class="nav-item1" style="border-left: 1px solid rgba(255, 255, 255, 0.3);">
+        <a class="nav-link" routerLink="imports">Imports</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="card mt-4 custom-card">
+  <router-outlet></router-outlet>
+</div>
+

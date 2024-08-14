@@ -9,6 +9,8 @@ import { TermsComponent } from './single-project/terms/terms.component';
 import { ProjectLanguagesComponent } from './single-project/project-languages/project-languages.component';
 import { ContributorsComponent } from './single-project/contributors/contributors.component';
 import { ImportsComponent } from './single-project/imports/imports.component';
+import { TranslationsComponent } from './translations/translations.component';
+import { TranslationListComponent } from './translations/translation-list/translation-list.component';
 
 export const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
@@ -22,6 +24,13 @@ export const routes: Routes = [
     // Default route for the project page
     { path: '', redirectTo: 'languages', pathMatch: 'full' },
   ]  },
+  { path: 'language/:id', component: TranslationsComponent, children: [
+    { path: 'translationList', component: TranslationListComponent},
+    { path: 'contributors', component: ContributorsComponent},
+    { path: 'imports', component: ImportsComponent},
+
+    { path: '', redirectTo: 'translationList', pathMatch: 'full'},
+  ]},
   { path: 'projectTerms', component: TermsComponent },
   { path: 'app', component: AppComponent, canActivate: [AuthGuard], children: [
     { path: 'dashboard', component: DashboardComponent }
