@@ -26,6 +26,11 @@ export class SingleProjectService {
         return this.http.get<ProjectLanguage[]>(`${this.apiUrl}/project/${projectId}`);
     }
 
+    // get projectLanguage by id
+    getProjectLanguageById(id: number): Observable<ProjectLanguage>{
+        return this.http.get<ProjectLanguage>(`${this.apiUrl}/${id}`);
+    }
+
     // Delete a project language by ID
     deleteProjectLanguage(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);

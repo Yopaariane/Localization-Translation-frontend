@@ -24,7 +24,7 @@ export const routes: Routes = [
     // Default route for the project page
     { path: '', redirectTo: 'languages', pathMatch: 'full' },
   ]  },
-  { path: 'language/:id', component: TranslationsComponent, children: [
+  { path: 'projectLanguage/:id', component: TranslationsComponent, children: [
     { path: 'translationList', component: TranslationListComponent},
     { path: 'contributors', component: ContributorsComponent},
     { path: 'imports', component: ImportsComponent},

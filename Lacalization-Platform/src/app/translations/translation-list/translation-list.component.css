@@ -4,3 +4,13 @@
 .custom-td span{
     padding: 0 10px 0 10px;
 }
+
+/* save button */
+.text-success{
+    color: #0d6efd; 
+    transition: color 0.3s;
+  }
+  .text-muted {
+    color: gray; 
+  }
+  

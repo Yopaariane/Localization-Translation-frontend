@@ -1,29 +1,49 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SingleProjectComponent } from '../single-project.component';
 import { forkJoin } from 'rxjs';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProjectService } from '../../dashboard/project-list/project.service';
 import { SingleProjectService } from '../single-project.service';
 import { languageService } from '../language.service';
 import { CommonModule } from '@angular/common';
+import { TermsServiceService } from '../terms/terms-service.service';
+import { TranslationListService } from '../../translations/translation-list/translation-list.service';
 
 interface ProjectLanguage{
   id: number;
   projectId: number;
   languageId: number;
+  progress?: number;
 }
 interface Language{
   id: number;
   code: string;
   name: string;
 }
+interface Terms{
+  id: number;
+  term: string;
+  context: string;
+  createdAt: Date;
+  projectId: number;
+  stringNumber: number;
+}
+interface Translations{
+  id: number;
+  translationText: string;
+  termId: number;
+  languageId: number;
+  creatorId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 @Component({
   selector: 'app-project-languages',
   standalone: true,
-  imports: [SingleProjectComponent, FormsModule, CommonModule, RouterModule],
+  imports: [SingleProjectComponent, FormsModule, CommonModule, RouterModule, NgbPaginationModule],
   templateUrl: './project-languages.component.html',
   styleUrls: [
     './project-languages.component.css',
@@ -43,14 +63,20 @@ export class ProjectLanguagesComponent implements OnInit {
   showDropdown: boolean = false;
   projectId: number | null = null;
   projectName: string | undefined;
+  translations: Translations[] = [];
+  terms: Terms[] = []
 
+  currentPage = 1;
+  itemsPerPage = 5;
+  paginatedProjectLanguage: ProjectLanguage[] = [];
 
   constructor(
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private projectService: ProjectService,
+    private termsService: TermsServiceService,
     private singleProjectService: SingleProjectService,
-    private languageService: languageService
+    private languageService: languageService,
+    private translationListService: TranslationListService
   ){}
 
   ngOnInit(): void {
@@ -73,6 +99,13 @@ export class ProjectLanguagesComponent implements OnInit {
         } else {
           this.noLanguages = false;
           this.projectLanguages = projectLanguages;
+
+          this.updatePaginatedProjectLanguage();
+
+         // Fetch and set progress for each language
+         projectLanguages.forEach(pl => {
+          this.updateLanguageProgress(pl.languageId);
+         }); 
         }
       },
       error => {
@@ -81,17 +114,52 @@ export class ProjectLanguagesComponent implements OnInit {
     );
   }
 
+  // Pagination
+  pageChanged(event: any): void {
+    if (event) {
+        this.currentPage = event;
+        console.log("Current page:", this.currentPage);
+    } else {
+        this.currentPage = 1;
+    }
+    this.updatePaginatedProjectLanguage();
+  }
+  updatePaginatedProjectLanguage(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedProjectLanguage = this.projectLanguages.slice(startIndex, endIndex);
+  } 
+  shouldShowPagination(): boolean {
+    return this.projectLanguages.length > this.itemsPerPage;
+  }
+
   loadLanguages(): void {
     this.languageService.getAllLanguages().subscribe((languages: Language[]) => {
       this.languages = languages;
     });
   }
 
+  updateLanguageProgress(languageId: number): void {
+    if (this.projectId) {
+      this.translationListService.getTranslationProgressForLanguage(languageId, this.projectId).subscribe(
+        (progress: number) => {
+          // progress
+          const projectLanguage = this.projectLanguages.find(pl => pl.languageId === languageId);
+          if (projectLanguage) {
+            projectLanguage.progress = progress;
+          }
+        },
+        error => {
+          console.error(`Error fetching translation progress for language ${languageId}`, error);
+        }
+      );
+    }
+  }
+  
   // flag icon method
   getFlagClass(languageCode: string): string {
     return `fi fi-${languageCode.toLowerCase()}`;
   }
-   
 
 
 // Modal management

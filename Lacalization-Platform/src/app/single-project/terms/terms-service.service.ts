@@ -48,4 +48,9 @@ export class TermsServiceService {
   getTermsCountByProjectId(projectId: number): Observable<Terms>{
     return this.http.get<Terms>(`${this.apiUrl}/count?projectId={projectId}`);
   }
+
+  // get totalStrig count By projectId
+  getTotalStringCountByProjectId(projectId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/project/${projectId}/totalStrings`);
+  }
 }
