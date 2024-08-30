@@ -1,22 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Timestamp } from 'rxjs';
+import { BehaviorSubject, Observable, Timestamp } from 'rxjs';
+import { Translations } from '../../models/tarnslation.model';
 
-interface Translations{
-  id: number;
-  translationText: string;
-  termId: number;
-  languageId: number;
-  creatorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslationListService {
   private apiUrl = 'http://10.12.1.209:8080/translation';
+
+  onLanguageChanged$: BehaviorSubject<any> = new BehaviorSubject(null); 
 
   constructor(private http: HttpClient) { }
 
@@ -63,5 +57,20 @@ export class TranslationListService {
   // get Overall Translation Progress For Project
   getOverallTranslationProgressForProject(projectId: number): Observable<number>{
     return this.http.get<number>(`${this.apiUrl}/progress/${projectId}`);
+  }
+
+  // get Average Translation Progress For User
+  getAverageTranslationProgressForUser(userId: number): Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/translation-progress/users/${userId}`);
+  }
+
+  // get Total String Number by user id
+  getTotalStringNumber(ownerId: number): Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/total-strings/${ownerId}`);
+  }
+
+  // get Strings Translation Progress
+  getStringsTranslationProgress(ownerId: number): Observable<number>{
+    return this.http.get<number>(`${this.apiUrl}/string-progress/users/${ownerId}`);
   }
 }

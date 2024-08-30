@@ -9,31 +9,42 @@
     </a>
     <div class="Translation-Progress custom-progress">
       <div class="project-title">
-        <h2>projectName</h2>
+        <h2>{{projectName}}</h2>
       </div>
       <div class="progress">
-          <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="80"></div>
+          <div class="progress-bar bg-info" role="progressbar" [style.width]="projectProgress + '%'" [attr.aria-valuenow]="projectProgress" aria-valuemin="0" aria-valuemax="80"></div>
       </div>
       <p>Translation Progress</p>
     </div>
   </div>
-  <div class="link-list">
-    <ul class="custom-list">
-      <li class="nav-item1">
-        <a class="nav-link" routerLink="languages">Languages</a>
-      </li>
-      <li class="nav-item1">
-        <a class="nav-link" routerLink="terms">Terms</a>
-      </li>
-      <li class="nav-item1">
-        <a class="nav-link" routerLink="contributors">Contributors</a>
-      </li>
-      <li class="nav-item1" style="border-left: 1px solid rgba(255, 255, 255, 0.3);">
-        <a class="nav-link" routerLink="imports">Imports</a>
+  <div class="link-list languageNav"> 
+    <div class="link-list">
+      <ul class="custom-list">
+        <li class="nav-item1" routerLinkActive="active-link">
+          <a class="nav-link" routerLink="terms">Terms</a>
+        </li>
+        <li class="nav-item1" routerLinkActive="active-link">
+          <a class="nav-link" routerLink="contributors">Contributors</a>
+        </li>
+        <li class="nav-item1" style="border-left: 1px solid rgba(255, 255, 255, 0.3);" routerLinkActive="active-link">
+          <a class="nav-link" routerLink="imports">Imports</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="btn-group custom-btn-group" style="position: absolute; z-index: 100; top: 289px; left: 7.5%;">
+  <button type="button" class="btn dropdown-toggle custom-button" (click)="toggleDropdown()">
+    <span [class]="getFlagClass(languageCode)"></span><strong style="margin-left: 6px;">{{ languageName }}</strong> 
+  </button>
+  <div *ngIf="showDropdown" (click)="hideDropdown()">
+    <ul class="list-group position-absolute z-index-1 w-100">
+      <li class="list-group-item" *ngFor="let language of filteredLanguages()" (click)="navigateToProjectLanguage(language.id)">
+        <span [class]="getFlagClass(language.code)"></span> {{ language.name }}
       </li>
     </ul>
   </div>
-</nav>
+</div>
 
 <div class="card mt-4 custom-card">
   <router-outlet></router-outlet>

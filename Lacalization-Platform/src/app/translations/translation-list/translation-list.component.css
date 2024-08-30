@@ -13,4 +13,7 @@
   .text-muted {
     color: gray; 
   }
-  
+
+.dropdown-item{
+  cursor: pointer;
+}

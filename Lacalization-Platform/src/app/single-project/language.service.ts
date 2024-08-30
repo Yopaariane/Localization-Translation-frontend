@@ -1,12 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Language } from "../models/project.model";
 
-interface Language{
-    id: number;
-    code: string;
-    name: string;
-}
 
 @Injectable({
     providedIn: 'root'
@@ -25,4 +21,23 @@ export class languageService{
     getLanguageById(id: number): Observable<Language> {
         return this.http.get<Language>(`${this.apiUrl}/${id}`);
     }
+
+    getCountryCode(languageCode: string): string {
+        switch (languageCode.toLowerCase()) {
+          case 'en':
+            return 'gb'; 
+          case 'fr':
+            return 'fr';
+          case 'de':
+            return 'de';
+          case 'zh':
+            return 'cn'; 
+          case 'ja':
+            return 'jp'; 
+          case 'es':
+            return 'es'; 
+          default:
+            return 'us'; 
+        }
+      }
 }

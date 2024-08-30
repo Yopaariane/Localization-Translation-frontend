@@ -1,0 +1,16 @@
+.languageNav{
+    display: flex;
+}
+.custom-btn-group{
+    align-items: center;
+}
+.custom-button{
+    height: 45px;
+    margin-bottom: 4px;
+    background-color: #43cea2;
+    border: 0;
+    color: white;
+}
+.custom-list{
+    margin-left: 70px;
+}

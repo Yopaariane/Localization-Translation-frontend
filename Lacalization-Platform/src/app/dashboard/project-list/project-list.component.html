@@ -4,12 +4,13 @@
       <span>Projects</span>
       <div class="dropdown">
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Order by Date Asc
+          Order by {{ sortOrder }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li><a class="dropdown-item" href="#">Date Desc</a></li>
-          <li><a class="dropdown-item" href="#">Name Asc</a></li>
-          <li><a class="dropdown-item" href="#">Name Desc</a></li>
+          <li><a class="dropdown-item" (click)="updateSortOrder('Date Asc')">Date Asc</a></li>
+            <li><a class="dropdown-item" (click)="updateSortOrder('Date Desc')">Date Desc</a></li>
+            <li><a class="dropdown-item" (click)="updateSortOrder('Name Asc')">Name Asc</a></li>
+            <li><a class="dropdown-item" (click)="updateSortOrder('Name Desc')">Name Desc</a></li>
         </ul>
       </div>
       <button class="btn btn-primary" (click)="openModal()">+</button>
@@ -26,23 +27,8 @@
         </thead>
         <tbody>
           <tr *ngIf="projects.length === 0">
-            <td colspan="4">There is not yet a project.</td>
+            <td colspan="4">Click on the + button to add your first project.</td>
           </tr>
-          <!-- <tr *ngFor="let project of projects">
-            <td><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></td>
-            <td>{{project.strings}} strings</td>
-            <td *ngIf="project.languages">
-              <ng-container *ngFor="let language of project.languages">
-                <span [class]="getFlagClass(language.code)" style="margin-left: 5px;"></span>
-              </ng-container>
-            </td>
-            <td>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" [style.width]="project.progress + '%'" [attr.aria-valuenow]="project.progress" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <small>{{ project.progress }}%</small>
-            </td>
-          </tr> -->
           <tr *ngFor="let project of paginatedProjects">
             <td><a [routerLink]="['/project', project.id]" class="link-dark">{{ project.name }}</a></td>
             <td>{{project.strings}} strings</td>

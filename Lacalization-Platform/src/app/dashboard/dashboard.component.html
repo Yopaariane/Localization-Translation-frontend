@@ -1,17 +1,17 @@
     <app-nav-bar></app-nav-bar>
-<nav class="next-navbar">
+    <nav class="next-navbar" >
     <div class="progress-nav">
         <div class="Translation-Progress" id="progress-bar">
-            <h1>48%</h1>
+            <h1>{{ averageProgress }}%</h1>
             <div class="progress">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-info" role="progressbar" [style.width.%]="averageProgress" [attr.aria-valuenow]="averageProgress" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <p>Translation Progress</p>
         </div>
         <div class="String-Progress" id="progress-bar">
-            <h1>83/10000</h1>
+            <h1>{{ totalStringNumber }}/10000</h1>
             <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="stringProgress"  [attr.aria-valuenow]="stringProgress"  aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <p>Used Strings</p>
         </div>
@@ -28,5 +28,5 @@
         </div>
     </div>
   </nav>
-  <app-project-list (projectCountChange)="updateProjectCount($event)"></app-project-list>
+  <app-project-list (projectCountChange)="updateProjectCount($event)" (adminIdChange)="onAdminIdChange($event)"></app-project-list>
  

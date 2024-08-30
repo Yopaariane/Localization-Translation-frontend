@@ -1,18 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-
-interface ProjectLanguage{
-    id: number;
-    projectId: number;
-    languageId: number;
-}
+import { ProjectLanguage } from "../models/project-language.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class SingleProjectService {
     private apiUrl = 'http://10.12.1.209:8080/projectLanguages';
+
+    
 
     constructor (private http: HttpClient){}
 
@@ -34,5 +31,10 @@ export class SingleProjectService {
     // Delete a project language by ID
     deleteProjectLanguage(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
+
+    // get ProjectLanguage
+    getProjectLanguageByLanguageIdAndProjectId(projectId: number, languageId: number): Observable<ProjectLanguage>{
+        return this.http.get<ProjectLanguage>(`${this.apiUrl}/project/${projectId}/language/${languageId}`);
     }
 }

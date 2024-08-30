@@ -1,31 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild, viewChild } from '@angular/core';
 import { TermsServiceService } from './terms-service.service';
-import { ProjectService } from '../../dashboard/project-list/project.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavBarComponent } from '../../dashboard/nav-bar/nav-bar.component';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslationListService } from '../../translations/translation-list/translation-list.service';
+import { Terms } from '../../models/terms.model';
+import { languageService } from '../language.service';
+import { SingleProjectService } from '../single-project.service';
+import { ProjectLanguage } from '../../models/project-language.model';
+import { Language } from '../../models/project.model';
 
-interface Terms{
-  id: number;
-  term: string;
-  context: string;
-  createdAt: Date;
-  projectId: number;
-  stringNumber: number;
-  progress?: number;
-}
-interface Translations{
-  id: number;
-  translationText: string;
-  termId: number;
-  languageId: number;
-  creatorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 @Component({
   selector: 'app-terms',
@@ -45,12 +31,14 @@ export class TermsComponent implements OnInit{
   projectId: number | null = null;
   noTerms = false;
 
+  projectLanguage: ProjectLanguage[] = [];
   terms: Terms[] = [];
   termsForm: FormGroup;
 
   currentPage = 1;
   itemsPerPage = 5;
   paginatedTerms: Terms[] = [];
+  languages: Language[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -58,7 +46,8 @@ export class TermsComponent implements OnInit{
     private modalService: NgbModal,
     private translationListService: TranslationListService,
     private route: ActivatedRoute,
-
+    private singleProjectService: SingleProjectService,
+    private languageService: languageService,
   ){
 
     this.route.parent?.paramMap.subscribe(params => {
@@ -67,6 +56,7 @@ export class TermsComponent implements OnInit{
       
         this.projectId = Number(id);
         this.loadTerms(this.projectId);
+        this.loadLanguages(this.projectId);
     });
 
     this.termsForm = this.fb.group({
@@ -101,6 +91,19 @@ export class TermsComponent implements OnInit{
       }
     );
   }
+
+  loadLanguages(projectId: number): void {
+    this.singleProjectService.getLanguageByProjectId(projectId).subscribe((projectLanguage: ProjectLanguage[]) => {
+      this.projectLanguage = projectLanguage;
+
+      projectLanguage.forEach((projectLanguage) =>{
+        this.languageService.getLanguageById(projectLanguage.languageId).subscribe((languages) =>{
+          this.languages.push(languages);
+        })
+      })
+    });
+  }
+
 
   // Pagination
   pageChanged(event: any): void {
@@ -142,8 +145,8 @@ export class TermsComponent implements OnInit{
 deleteTerm(id: number): void {
   this.termsService.deleteTerm(id).subscribe(
     () => {
-      // On success, remove the term from the list
       this.terms = this.terms.filter(term => term.id !== id);
+      this.reloadPage();
     },
     error => {
       console.error('Error deleting term:');

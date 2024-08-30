@@ -1,0 +1,29 @@
+.chat-container {
+    max-height: 400px;
+    /* overflow-y: auto; */
+    position: absolute;
+    z-index: 100;
+
+  }
+  
+  .chat-messages {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .chat-input input {
+    width: calc(100% - 50px);
+    display: inline-block;
+  }
+  
+  .chat-input button {
+    width: 50px;
+  }
+  

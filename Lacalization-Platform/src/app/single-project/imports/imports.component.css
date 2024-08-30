@@ -1,0 +1,23 @@
+#fileInput {
+    cursor: pointer;
+}
+.border-dashed {
+    border-style: dashed !important;
+}
+.section{
+    display: flex;
+}
+.custom-container{
+    width: 60%;
+}
+.file-type{
+    width: 40%;
+    text-align: center;
+    padding-top: 30px;
+}
+.file-drop-zone{
+    background-color: rgb(243, 243, 243);
+}
+.file-drop-zone:hover{
+    background-color: rgb(211, 253, 239);
+}

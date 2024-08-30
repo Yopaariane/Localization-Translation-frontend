@@ -7,8 +7,10 @@ export interface Project {
     id: number;
   name: string;
   description: string;
+  createAt: Date;
   ownerId: number;
   strings: number;
   languages: Language[];
   progress: number;
 }
+

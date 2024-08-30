@@ -1,1 +1,71 @@
-<p>contributors works!</p>
+<table class="table text-white mb-0">
+    <thead>
+      <tr>
+        <th scope="col"><span class="badge badge-light" style="background-color: black; margin-right: 2px;">{{userRoleDetails.length}}</span>Contributors</th>
+        <th><div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Order by 
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#">Date Desc</a></li>
+            <li><a class="dropdown-item" >Name Asc</a></li>
+            <li><a class="dropdown-item" >Name Desc</a></li>
+          </ul>
+        </div></th>
+        <th style="text-align: right">
+          <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary custom-btn" (click)="openLanguageModal()">+</button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="userRoleDetails.length === 1">
+        <td colspan="4">Add your first Contributor for this project</td>
+      </tr> 
+      <tr class="fw-normal" *ngFor="let detail of userRoleDetails">
+        <td>
+          <span style="font-weight: bold;">{{detail.user.name}}</span>
+        </td>
+        <td class="align-middle">
+         {{ detail.role.name }}
+        </td>
+        <td class="align-middle custom-td" style="text-align: right">
+            <button type="button" class="custom-iconBtn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove language" (click)="deleteUserRole(detail.userRoleId)"><i
+                class="fas fa-trash-alt fa-lg text-warning"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ 
+  <!-- Modal -->
+  <ng-template #ModalTemplate let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Add Contributor</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Enter the User Email" [(ngModel)]="userEmail">
+      </div>
+      <div *ngIf="emailError" class="text-danger mb-3">{{ emailError }}</div>
+  
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Choose a role" [value]="selectedRole?.name" (focus)="showDropdown = true" (blur)="hideDropdown()">
+      </div>
+      <div *ngIf="roleError" class="text-danger mb-3">{{ roleError }}</div>
+  
+      <div *ngIf="showDropdown">
+        <ul class="list-group position-absolute z-index-1 w-100">
+          <li class="list-group-item" *ngFor="let role of filteredRoles()" (click)="selectRole(role)">
+            {{ role.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+      <button type="button" class="btn btn-primary" (click)="SaveContributor(modal)">Add</button>
+    </div>
+  </ng-template>
+  
+

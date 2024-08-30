@@ -4,41 +4,16 @@ import { forkJoin } from 'rxjs';
 import { NgbModal, NgbModalRef, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ProjectService } from '../../dashboard/project-list/project.service';
 import { SingleProjectService } from '../single-project.service';
 import { languageService } from '../language.service';
 import { CommonModule } from '@angular/common';
 import { TermsServiceService } from '../terms/terms-service.service';
 import { TranslationListService } from '../../translations/translation-list/translation-list.service';
+import { Terms } from '../../models/terms.model';
+import { Language } from '../../models/project.model';
+import { ProjectLanguage } from '../../models/project-language.model';
+import { Translations } from '../../models/tarnslation.model';
 
-interface ProjectLanguage{
-  id: number;
-  projectId: number;
-  languageId: number;
-  progress?: number;
-}
-interface Language{
-  id: number;
-  code: string;
-  name: string;
-}
-interface Terms{
-  id: number;
-  term: string;
-  context: string;
-  createdAt: Date;
-  projectId: number;
-  stringNumber: number;
-}
-interface Translations{
-  id: number;
-  translationText: string;
-  termId: number;
-  languageId: number;
-  creatorId: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 @Component({
   selector: 'app-project-languages',
@@ -51,7 +26,7 @@ interface Translations{
   ]
 })
 export class ProjectLanguagesComponent implements OnInit {
-  @ViewChild('yourModalTemplate', { static: true }) yourModalTemplate: any;
+  @ViewChild('ModalTemplate', { static: true }) ModalTemplate: any;
 
 
   projectLanguages: ProjectLanguage[] = [];
@@ -70,10 +45,11 @@ export class ProjectLanguagesComponent implements OnInit {
   itemsPerPage = 5;
   paginatedProjectLanguage: ProjectLanguage[] = [];
 
+  sortOrder: string = 'Date Asc';
+
   constructor(
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private termsService: TermsServiceService,
     private singleProjectService: SingleProjectService,
     private languageService: languageService,
     private translationListService: TranslationListService
@@ -105,6 +81,7 @@ export class ProjectLanguagesComponent implements OnInit {
          // Fetch and set progress for each language
          projectLanguages.forEach(pl => {
           this.updateLanguageProgress(pl.languageId);
+          this.sortTerms();
          }); 
         }
       },
@@ -112,6 +89,23 @@ export class ProjectLanguagesComponent implements OnInit {
         console.error('Error loading project languages', error);
       }
     );
+  }
+
+  updateSortOrder(order: string) {
+    this.sortOrder = order;
+    this.sortTerms();
+  }
+
+  sortTerms() {
+    switch (this.sortOrder) {
+        case 'Name Asc':
+            this.languages.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'Name Desc':
+            this.languages.sort((a, b) => b.name.localeCompare(a.name));
+            break;
+    }
+    this.loadLanguages();
   }
 
   // Pagination
@@ -158,9 +152,8 @@ export class ProjectLanguagesComponent implements OnInit {
   
   // flag icon method
   getFlagClass(languageCode: string): string {
-    return `fi fi-${languageCode.toLowerCase()}`;
+    return `fi fi-${this.languageService.getCountryCode(languageCode)}`;
   }
-
 
 // Modal management
   addLanguage(): void {
@@ -185,13 +178,13 @@ export class ProjectLanguagesComponent implements OnInit {
   }
 
   openLanguageModal() {
-    this.modalService.open(this.yourModalTemplate);
+    this.modalService.open(this.ModalTemplate);
   }
   
   saveLanguages(modal: NgbModalRef): void {
     if (this.projectId && this.selectedLanguages.length > 0) {
       const projectLanguages: ProjectLanguage[] = this.selectedLanguages.map(lang => ({
-        id: 0, // The backend will generate the ID
+        id: 0,
         projectId: this.projectId!,
         languageId: lang.id
       }));
@@ -242,8 +235,8 @@ export class ProjectLanguagesComponent implements OnInit {
   deleteLanguage(id: number): void {
     this.singleProjectService.deleteProjectLanguage(id).subscribe(
       () => {
-        // On successful deletion, remove the language from the list in the frontend
         this.projectLanguages = this.projectLanguages.filter(lang => lang.id !== id);
+        this.loadProjectLanguages(this.projectId!);
       },
       error => {
         console.error('Error deleting project language', error);

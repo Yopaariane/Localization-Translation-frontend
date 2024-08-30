@@ -1,33 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-interface ProjectLanguage {
-  id: number;
-  projectId: number;
-  languageId: number;
-}
-
-interface Language {
-  id: number;
-  code: string;
-  name: string;
-}
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  ownerId: number;
-  strings: number;
-  languages: Language[];
-  progress: number;
-}
+import { Project } from '../../models/project.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  private apiUrl = 'http://10.12.1.209:8080/api/projects'; //backend URL
+  private apiUrl = 'http://10.12.1.209:8080/api/projects';
 
   constructor(private http: HttpClient) {}
 

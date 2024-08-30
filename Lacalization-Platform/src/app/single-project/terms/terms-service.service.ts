@@ -1,15 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Terms } from '../../models/terms.model';
 
-interface Terms{
-  id: number;
-  term: string;
-  context: string;
-  createdAt: Date;
-  projectId: number;
-  stringNumber: number;
-}
 
 @Injectable({
   providedIn: 'root'

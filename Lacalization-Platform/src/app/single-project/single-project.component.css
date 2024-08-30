@@ -45,6 +45,10 @@
   text-decoration: none;
   color: white; 
 }
+.active-link {
+  font-weight: bold; 
+  border-bottom: 2px solid white;
+}
 .nav-item:not(:last-child) {
   border-right: none; /* Remove right border for all but the last item */
 }
