@@ -4,20 +4,19 @@ import { SingleProjectService } from '../../single-project/single-project.servic
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TermsServiceService } from '../../single-project/terms/terms-service.service';
 import { CommonModule, NgClass } from '@angular/common';
-import { ProjectService } from '../../dashboard/project-list/project.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExportService } from './export.service';
 import { Translations } from '../../models/tarnslation.model';
 import { Terms } from '../../models/terms.model';
 import { filter, Subscription } from 'rxjs';
-import { ChatComponent } from "../../chat/chat.component";
-import bootstrap from '../../../main.server';
+import { StorageServiceService } from '../../storage-service.service';
+import { Comments, CommentServiceService } from '../../comment-service.service';
 
 @Component({
   selector: 'app-translation-list',
   standalone: true,
-  imports: [CommonModule, NgClass, FormsModule, NgbPaginationModule, ChatComponent],
+  imports: [CommonModule, NgClass, FormsModule, NgbPaginationModule],
   templateUrl: './translation-list.component.html',
   styleUrls: [
     './translation-list.component.css',
@@ -33,7 +32,10 @@ export class TranslationListComponent implements OnInit {
   terms: Terms[] = [];
   projectId!: number;
   languageId!: number;
-  ownerId!: number;
+  user: { id: number, name: string } | null = null;
+  comments: Comments[] = [];
+  newComment: string = "";
+  termId!: number;
 
   draftTranslations: {[termId: number]: string} = {};
   activeInputs: {[termId: number]: boolean} = {};
@@ -57,10 +59,11 @@ export class TranslationListComponent implements OnInit {
     private translationListService: TranslationListService,
     private singleProjectService: SingleProjectService,
     private termsService: TermsServiceService,
-    private projectService: ProjectService,
     private modalService: NgbModal,
     private exportService: ExportService,
-    private router: Router
+    private router: Router,
+    private localStorage: StorageServiceService,
+    private commentsService: CommentServiceService
   ){}
 
   ngOnDestroy() {
@@ -75,6 +78,11 @@ export class TranslationListComponent implements OnInit {
     ).subscribe(() => {
       this.updateRouteId();
     }); 
+
+    const userData = this.localStorage.getitem('user');
+    if (userData) {
+      this.user = JSON.parse(userData);
+    }
     
     
     this.routeId = +this.route.snapshot.parent?.paramMap.get('id')!;
@@ -93,16 +101,8 @@ export class TranslationListComponent implements OnInit {
 
       this.languageId = projectLanguage.languageId;
       this.projectId = projectLanguage.projectId;
-      this.fetchProjectDetails(this.projectId);
-    });
-  }
-
-  fetchProjectDetails(projectId: number): void {
-
-    this.projectService.getProjectById(projectId).subscribe((project) => {
-      this.ownerId = project.ownerId;
       this.loadTermsAndTranslations();
-    })
+    });
   }
 
   // sorting
@@ -186,7 +186,7 @@ export class TranslationListComponent implements OnInit {
         translationText: translationText,
         termId: termId,
         languageId: this.languageId,
-        creatorId: this.ownerId,
+        creatorId: this.user?.id,
       };
   
       // Logging to check values before sending the request
@@ -257,9 +257,6 @@ export class TranslationListComponent implements OnInit {
   openExportModal() {
     this.modalService.open(this.modalTemplate);
   }
-  openChatModal() {
-    this.modalService.open(this.chatModal);
-  }
 
   filterFormats(): void {
     this.filteredFormats = this.formats.filter(format =>
@@ -287,4 +284,46 @@ export class TranslationListComponent implements OnInit {
       console.warn('Unsupported format');
     }
   }
+
+  // chat modal
+  openChatModal(termId: number) {
+    if (this.user) {
+      this.commentsService.getCommentsByTermIdAndUserId(termId, this.user.id).subscribe(
+        (comments) => {
+          this.comments = comments;
+          this.termId = termId;
+          this.modalService.open(this.chatModal);
+        },
+        (error) => {
+          console.error('Error loading comments:', error);
+        }
+      );
+    }
+  }
+  
+  saveComment(): void {
+    if (this.user && this.termId && this.newComment) {
+      const comment: Partial<Comments> = {
+        comment: this.newComment,
+        termId: this.termId,
+        userId: this.user.id,
+      };
+  
+      console.log('Saving comment with payload:', comment);
+  
+      this.commentsService.createComment(comment as Comments).subscribe(
+        (savedComment) => {
+          this.comments.push(savedComment);
+          this.newComment = '';
+          console.log('Comment saved successfully');
+        },
+        (error) => {
+          console.error('Error saving comment:', error);
+        }
+      );
+    } else {
+      console.error('User not logged in or no comment text provided.');
+    }
+  }  
+
 }

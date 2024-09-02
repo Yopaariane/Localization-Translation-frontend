@@ -17,3 +17,8 @@
 .dropdown-item{
   cursor: pointer;
 }
+
+/* chat modal */
+.fas{
+  cursor: pointer;
+}
