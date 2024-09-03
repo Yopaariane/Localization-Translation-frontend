@@ -38,6 +38,7 @@ export class TranslationListComponent implements OnInit {
   termId!: number;
 
   draftTranslations: {[termId: number]: string} = {};
+  isEditing: { [termId: number]: boolean } = {};
   activeInputs: {[termId: number]: boolean} = {};
   routeId!: number;
 
@@ -214,6 +215,18 @@ export class TranslationListComponent implements OnInit {
 
   }
 
+  isEditingTerm(termId: number): boolean {
+    return !!this.isEditing[termId];
+  }
+
+  toggleEdit(termId: number): void {
+    this.isEditing[termId] = !this.isEditing[termId];
+    if (this.isEditing[termId]) {
+      const translation = this.getTranslationForTerm(termId)?.translationText || '';
+      this.draftTranslations[termId] = translation;
+    }
+  }
+
   updateTranslation(termId: number): void {
     const translation = this.getTranslationForTerm(termId);
     if (translation) {
@@ -224,6 +237,7 @@ export class TranslationListComponent implements OnInit {
           this.activeInputs[termId] = false;
           delete this.draftTranslations[termId];
           this.reloadPage();
+          this.toggleEdit(termId);
         },
         (error) => {
           console.error('Error updating translation:', error);
